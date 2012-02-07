@@ -1,0 +1,33 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!-- The HTML 4.01 Transitional DOCTYPE declaration-->
+<!-- above set at the top of the file will set     -->
+<!-- the browser's rendering engine into           -->
+<!-- "Quirks Mode". Replacing this declaration     -->
+<!-- with a "Standards Mode" doctype is supported, -->
+<!-- but may lead to some differences in layout.   -->
+
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>VIES VAT number validation</title>
+  </head>
+
+  <body>
+    <h1>VIES VAT number validation</h1>
+	<p>This is a wrapper of the offical EU VIES VAT number validation webservice</p>
+	<a href="http://ec.europa.eu/taxation_customs/vies/">Official VAT VIES number validation service</a>	
+	<br />
+	<br />
+    <a href="vatviesservice?uid=AB123456&requester=CD123456">Wrapped VatViesService</a></td>
+    <br />
+    <br />
+    <h3>XML Result</h3>
+    &lt;result&gt;<br />
+    &nbsp;&nbsp;&lt;valid&gt;Vat number valid [true|false]&lt;/valid&gt;<br />
+	&nbsp;&nbsp;&lt;name&gt;Name of requested company&lt;/name&gt;<br />
+	&nbsp;&nbsp;&lt;address&gt;Address of requested company&lt;/address&gt;<br />
+	&nbsp;&nbsp;&lt;requestid&gt;Request ID&lt;/requestid&gt;<br />
+	&nbsp;&nbsp;&lt;requestdate&gt;Request date&lt;/requestdate&gt;<br />
+    &lt;/result&gt;
+  </body>
+</html>
