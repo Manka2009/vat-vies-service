@@ -32,8 +32,8 @@ public class VatViesServiceServlet extends HttpServlet {
 				Result result = checkUID(uid, requester);		
 				resp.getWriter().println("<result>");
 				resp.getWriter().println("<valid>" + result.valid + "</valid>");
-				resp.getWriter().println("<name>" + result.name + "</name>");
-				resp.getWriter().println("<address>" + result.address + "</address>");
+				resp.getWriter().println("<name>" + StringEscapeUtils.escapeXml(result.name) + "</name>");
+				resp.getWriter().println("<address>" + StringEscapeUtils.escapeXml(result.address) + "</address>");
 				resp.getWriter().println("<requestid>" + result.id + "</requestid>");
 				resp.getWriter().println("<requestdate>" + result.date + "</requestdate>");
 				resp.getWriter().println("</result>");
