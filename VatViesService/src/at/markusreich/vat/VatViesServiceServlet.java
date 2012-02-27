@@ -18,7 +18,7 @@ import org.apache.commons.lang3.StringEscapeUtils;
 
 @SuppressWarnings("serial")
 public class VatViesServiceServlet extends HttpServlet {
-	private static final String template = "<?xml version='1.0' encoding='UTF-8'?><soapenv:Envelope xmlns:soapenv='http://www.w3.org/2003/05/soap-envelope' xmlns:urn='urn:ec.europa.eu:taxud:vies:services:checkVat:types'><soapenv:Header/><soapenv:Body><urn:checkVatApprox><urn:countryCode>${countryCode}</urn:countryCode><urn:vatNumber>${vatNumber}</urn:vatNumber><urn:requesterCountryCode>${requesterCountryCode}</urn:requesterCountryCode><urn:requesterVatNumber>${requesterVatNumber}</urn:requesterVatNumber></urn:checkVatApprox></soapenv:Body></soapenv:Envelope>";
+	private static final String template = "<soapenv:Envelope xmlns:soapenv='http://schemas.xmlsoap.org/soap/envelope/' xmlns:urn='urn:ec.europa.eu:taxud:vies:services:checkVat:types'><soapenv:Header/><soapenv:Body><urn:checkVatApprox><urn:countryCode>${countryCode}</urn:countryCode><urn:vatNumber>${vatNumber}</urn:vatNumber><urn:requesterCountryCode>${requesterCountryCode}</urn:requesterCountryCode><urn:requesterVatNumber>${requesterVatNumber}</urn:requesterVatNumber></urn:checkVatApprox></soapenv:Body></soapenv:Envelope>";
 	
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		String requester = req.getParameter("requester");
@@ -74,12 +74,12 @@ public class VatViesServiceServlet extends HttpServlet {
 		}
 		
 		String resultString = StringEscapeUtils.unescapeHtml4(sb.toString());
-		result.valid = Boolean.valueOf(getValue(resultString, "urn:valid"));
+		result.valid = Boolean.valueOf(getValue(resultString, "valid"));
 		if(result.valid) {
-			result.name = getValue(resultString.replace("\n", " "), "urn:traderName");
-			result.address = getValue(resultString.replace("\n", ", "), "urn:traderAddress");
-			result.id = getValue(resultString, "urn:requestIdentifier");
-			result.date = getValue(resultString, "urn:requestDate");
+			result.name = getValue(resultString.replace("\n", " "), "traderName");
+			result.address = getValue(resultString.replace("\n", ", "), "traderAddress");
+			result.id = getValue(resultString, "requestIdentifier");
+			result.date = getValue(resultString, "requestDate");
 		}			
 		
 		wr.close();
