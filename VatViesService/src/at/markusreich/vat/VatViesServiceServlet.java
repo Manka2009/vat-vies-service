@@ -66,7 +66,7 @@ public class VatViesServiceServlet extends HttpServlet {
 		wr.flush();
 
 		// Get the response
-		BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+		BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
 		StringBuffer sb = new StringBuffer();
 		String line;
 		while ((line = rd.readLine()) != null) {
