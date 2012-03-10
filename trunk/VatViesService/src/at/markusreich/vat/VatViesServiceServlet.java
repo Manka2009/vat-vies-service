@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.datanucleus.util.StringUtils;
 
 @SuppressWarnings("serial")
 public class VatViesServiceServlet extends HttpServlet {
@@ -23,25 +24,51 @@ public class VatViesServiceServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		String requester = req.getParameter("requester");
 		String uid = req.getParameter("uid");
-		resp.setContentType("application/xml");
-		resp.getWriter().println("<?xml version='1.0' encoding='UTF-8'?>");		
-		if(requester==null || uid==null) {
-			resp.getWriter().println("<error>GET Parameter requester and uid are obligatory!</error>");
+		String format = req.getParameter("format");
+		if("html".equals(format)) {			
+			resp.setContentType("text/html");
+			resp.setCharacterEncoding("utf-8");
+			resp.getWriter().println("<html>");
+			resp.getWriter().println("<head><meta http-equiv='Content-Type' content='text/html; charset=utf-8'></head>");	
+			resp.getWriter().println("<body>");
+			if(requester==null || uid==null) {
+				resp.getWriter().println("<h1>GET Parameter requester and uid are obligatory!</h1>");
+			} else {
+				try {
+					Result result = checkUID(uid, requester);		
+					resp.getWriter().println(result.valid + "<br />");
+					resp.getWriter().println(result.name + "<br />");
+					resp.getWriter().println(result.address + "<br />");
+					resp.getWriter().println(result.id + "<br />");
+					resp.getWriter().println(result.date + "<br />");					
+				} catch (Exception ex) {
+					resp.getWriter().println("<h1>" + ex.toString() + "</h1>");
+				}
+			}		
+			resp.getWriter().println("</body>");
+			resp.getWriter().println("</html>");
 		} else {
-			try {
-				Result result = checkUID(uid, requester);		
-				resp.getWriter().println("<result>");
-				resp.getWriter().println("<valid>" + result.valid + "</valid>");
-				resp.getWriter().println("<name>" + StringEscapeUtils.escapeXml(result.name) + "</name>");
-				resp.getWriter().println("<address>" + StringEscapeUtils.escapeXml(result.address) + "</address>");
-				resp.getWriter().println("<requestid>" + result.id + "</requestid>");
-				resp.getWriter().println("<requestdate>" + result.date + "</requestdate>");
-				resp.getWriter().println("</result>");
-				
-			} catch (Exception ex) {
-				resp.getWriter().println("<error>" + ex.toString() + "</error>");
-			}
-		}		
+			resp.setContentType("application/xml");
+			resp.setCharacterEncoding("utf-8");
+			resp.getWriter().println("<?xml version='1.0' encoding='UTF-8'?>");		
+			if(requester==null || uid==null) {
+				resp.getWriter().println("<error>GET Parameter requester and uid are obligatory!</error>");
+			} else {
+				try {
+					Result result = checkUID(uid, requester);		
+					resp.getWriter().println("<result>");
+					resp.getWriter().println("<valid>" + result.valid + "</valid>");
+					resp.getWriter().println("<name>" + StringEscapeUtils.escapeXml(result.name) + "</name>");
+					resp.getWriter().println("<address>" + StringEscapeUtils.escapeXml(result.address) + "</address>");
+					resp.getWriter().println("<requestid>" + result.id + "</requestid>");
+					resp.getWriter().println("<requestdate>" + result.date + "</requestdate>");
+					resp.getWriter().println("</result>");
+					
+				} catch (Exception ex) {
+					resp.getWriter().println("<error>" + ex.toString() + "</error>");
+				}
+			}		
+		}
 	}	
 	
 	@Override
